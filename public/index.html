@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日心情记录</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🌈 每日心情记录</h1>
+
+    <div class="input-section">
+      <textarea 
+        id="moodInput" 
+        placeholder="今天的心情怎么样？记录一下吧..."
+        rows="4"
+      ></textarea>
+      <button id="submitBtn">记录心情</button>
+      <p id="message" class="message"></p>
+    </div>
+
+    <div class="history-section">
+      <h2>📝 历史记录</h2>
+      <ul id="moodList" class="mood-list"></ul>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

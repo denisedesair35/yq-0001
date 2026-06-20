@@ -1,0 +1,13 @@
+{
+  "name": "daily-mood-tracker",
+  "version": "1.0.0",
+  "description": "每日心情记录应用",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "sql.js": "^1.10.3"
+  }
+}
