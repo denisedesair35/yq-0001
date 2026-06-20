@@ -67,6 +67,59 @@ app.get('/api/moods', (req, res) => {
   res.json(moods);
 });
 
+app.put('/api/mood/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const { content } = req.body;
+
+  if (!id || isNaN(id)) {
+    return res.status(400).json({ error: '无效的记录ID' });
+  }
+
+  if (!content || !content.trim()) {
+    return res.status(400).json({ error: '心情内容不能为空' });
+  }
+
+  const checkStmt = db.prepare('SELECT id FROM moods WHERE id = ?');
+  const checkResult = checkStmt.getAsObject([id]);
+  checkStmt.free();
+
+  if (!checkResult.id) {
+    return res.status(404).json({ error: '记录不存在' });
+  }
+
+  const stmt = db.prepare('UPDATE moods SET content = ? WHERE id = ?');
+  stmt.run([content.trim(), id]);
+  stmt.free();
+
+  saveDatabase();
+
+  res.json({ success: true });
+});
+
+app.delete('/api/mood/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+
+  if (!id || isNaN(id)) {
+    return res.status(400).json({ error: '无效的记录ID' });
+  }
+
+  const checkStmt = db.prepare('SELECT id FROM moods WHERE id = ?');
+  const checkResult = checkStmt.getAsObject([id]);
+  checkStmt.free();
+
+  if (!checkResult.id) {
+    return res.status(404).json({ error: '记录不存在' });
+  }
+
+  const stmt = db.prepare('DELETE FROM moods WHERE id = ?');
+  stmt.run([id]);
+  stmt.free();
+
+  saveDatabase();
+
+  res.json({ success: true });
+});
+
 initDatabase().then(() => {
   app.listen(PORT, () => {
     console.log(`心情记录应用运行在 http://localhost:${PORT}`);
